@@ -25,30 +25,52 @@ public class RomanToInteger {
 
     public int romanToInt(String s) {
         String[] input = s.split("");
-        int[] temp_input = new int[input.length];
 
         int result = 0;
-        Map<String, Integer> mapping = new HashMap<>();
-        mapping.put("I", 1);
-        mapping.put("V", 5);
-        mapping.put("X", 10);
-        mapping.put("L", 50);
-        mapping.put("C", 100);
-        mapping.put("D", 500);
-        mapping.put("M", 1000);
 
-        for (int index = 1; index < input.length ; index++) {
-            if (mapping.get(input[index-1]) < mapping.get(input[index])) {
-                //前者小於後者，為減項
-                temp_input[index - 1] = mapping.get(input[index - 1]) * -1;
-            } else {
-                temp_input[index - 1] = mapping.get(input[index - 1]);
+        for (int index = 0; index < input.length ; index++) {
+            switch (input[index]) {
+                case "I" : {
+                    if ((index != input.length-1) && (input[index + 1].equals("V") || input[index + 1].equals("X"))) {
+                        result -= 1;
+                    } else {
+                        result += 1;
+                    }
+                    break;
+                }
+                case "V" : {
+                    result += 5;
+                    break;
+                }
+                case "X" : {
+                    if ((index != input.length-1) && (input[index + 1].equals("L") || input[index + 1].equals("C"))) {
+                        result -= 10;
+                    } else {
+                        result += 10;
+                    }
+                    break;
+                }
+                case "L" : {
+                    result += 50;
+                    break;
+                }
+                case "C" : {
+                    if ((index != input.length-1) && (input[index + 1].equals("D") || input[index + 1].equals("M"))) {
+                        result -= 100;
+                    } else {
+                        result += 100;
+                    }
+                    break;
+                }
+                case "D" : {
+                    result += 500;
+                    break;
+                }
+                case "M" : {
+                    result += 1000;
+                    break;
+                }
             }
-        }
-        temp_input[input.length - 1] = mapping.get(input[input.length - 1]);
-
-        for (int temp_num : temp_input) {
-            result += temp_num;
         }
         return result;
     }
