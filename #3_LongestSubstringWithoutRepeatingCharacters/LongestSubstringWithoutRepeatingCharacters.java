@@ -15,17 +15,20 @@ public class LongestSubstringWithoutRepeatingCharacters {
         }
 
         char[] temp = s.toCharArray();
-        for (int left_index = 0; left_index < temp.length ; left_index++) {
+        int left_index = 0;
+        int right_index = 0;
+        while (right_index < temp.length) {
+            if (temp_result.indexOf(temp[right_index]+"") == -1) {
+                temp_result.append(temp[right_index]);
+            } else {
+                left_index = temp_result.indexOf(temp[right_index]+"");
+                temp_result = temp_result.replace(0, left_index + 1  , "").append(temp[right_index]);
+
+            }
             if (temp_result.length() > result.length()) {
                 result = temp_result.toString();
             }
-            temp_result = temp_result.replace(0, temp_result.length(), "");
-            for (int right_index = left_index ; right_index < temp.length ; right_index++) {
-                if (temp_result.indexOf(temp[right_index]+"") > -1) {
-                    break;
-                }
-                temp_result.append(temp[right_index]);
-            }
+            right_index++;
         }
 
         return result.length();
@@ -53,6 +56,14 @@ public class LongestSubstringWithoutRepeatingCharacters {
         String test5 = "au";
         int result5 = 2;
         System.out.println(action.lengthOfLongestSubstring(test5) == (result5));
+
+        String test6 = "aabaab!bb";
+        int result6 = 3;
+        System.out.println(action.lengthOfLongestSubstring(test6) == (result6));
+
+        String test7 = "dvdf";
+        int result7 = 3;
+        System.out.println(action.lengthOfLongestSubstring(test7) == (result7));
 
 
     }
